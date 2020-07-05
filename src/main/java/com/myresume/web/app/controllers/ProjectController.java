@@ -55,6 +55,7 @@ public class ProjectController extends OwnController {
 		model.addObject(PROJECT_LABEL, new ProjectModel());
 
 		model.addObject("title", title("Proyectos","Utilice este modulo para gestionar los proyectos"));
+		model.addObject("subTitle", "Listado de Proyectos");
 		session.setAttribute(USER_LABEL, userService.authentication(getUser()));
 		
 		return model;

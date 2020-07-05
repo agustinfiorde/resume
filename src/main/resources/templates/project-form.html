@@ -42,40 +42,40 @@
 							<strong>¡Error!</strong> <span th:text="${error}">error</span>
 						</div>
 
-						<div th:if="${accion == 'eliminar'}" class="alert alert-danger" role="alert">
+						<div th:if="${action == 'eliminar'}" class="alert alert-danger" role="alert">
 							<strong>¡Alto!</strong> ¿Se encuentra seguro de que desea proceder con la eliminación del Pedido de Ayuda?
 						</div>
 
-						<div th:if="${accion == 'recuperar'}" class="alert alert-danger" role="alert">
+						<div th:if="${action == 'recuperar'}" class="alert alert-danger" role="alert">
 							<strong>¡Alto!</strong> ¿Se encuentra seguro de que desea proceder con la recuperación del Pedido de Ayuda?
 						</div>
 
-						<form class="vertical-form" id="formulario" method="POST" th:action="@{/helprequest/} + ${accion == null or accion == 'update' ? 'save' : accion}" th:object="${helprequest}">
+						<form class="vertical-form" id="formulario" method="POST" th:action="@{/project/} + ${action == null or action == 'update' ? 'save' : action}" th:object="${project}">
 
 							<input type="hidden" class="form-control" th:field="*{id}" th:value="*{id}" />
 							
 							<div class="form-group">
 								<label for="nombre">Nombre y Apellido Victima</label>
-								<input type="text" class="form-control" id="nombre" placeholder="Ingrese el numero del ODS" th:field="*{numero}" th:value="*{numero}" th:disabled="${accion == 'delete'}" />
+								<input type="text" class="form-control" id="nombre" placeholder="Ingrese el numero del ODS" th:field="*{numero}" th:value="*{numero}" th:disabled="${action == 'delete'}" />
 							</div>
 							
 							<div class="form-group">
 								<label for="nameAggressor">Nombre y Apellido Agresor</label>
-								<input type="text" class="form-control" id="nombreLastNameAggressor" placeholder="Ingrese el nombre del ODS" th:field="*{nombre}" th:value="*{nombre}" th:disabled="${accion == 'delete'}" />
+								<input type="text" class="form-control" id="nombreLastNameAggressor" placeholder="Ingrese el nombre del ODS" th:field="*{nombre}" th:value="*{nombre}" th:disabled="${action == 'delete'}" />
 							</div>
 
 							<div class="form-group">
 								<label for="typesOfViolences">Tipos de Agresiones</label>
-								<textarea class="form-control" id="descripcion" th:field="*{descripcion}" th:value="*{descripcion}" rows="5" th:disabled="${accion == 'delete'}"></textarea>
+								<textarea class="form-control" id="descripcion" th:field="*{descripcion}" th:value="*{descripcion}" rows="5" th:disabled="${action == 'delete'}"></textarea>
 							</div>
 
 						</form>
 
-						<button type="submit" class="btn btn-danger" form="formulario" th:if="${accion == 'delete'}">Eliminar</button>
-						<button type="submit" class="btn btn-success" form="formulario" th:if="${accion == null or accion == 'save'}">Guardar</button>
-						<button type="submit" class="btn btn-primary" form="formulario" th:if="${accion == 'update'}">Actualizar</button>
+						<button type="submit" class="btn btn-danger" form="formulario" th:if="${action == 'delete'}">Eliminar</button>
+						<button type="submit" class="btn btn-success" form="formulario" th:if="${action == null or action == 'save'}">Guardar</button>
+						<button type="submit" class="btn btn-primary" form="formulario" th:if="${action == 'update'}">Actualizar</button>
 
-						<a th:href="@{/helprequest/list}">
+						<a th:href="@{/project/list}">
 							<button type="button" class="btn btn-default">Cancelar</button>
 						</a>
 					</div>

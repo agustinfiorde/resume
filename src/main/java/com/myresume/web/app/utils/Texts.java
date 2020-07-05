@@ -6,6 +6,7 @@ public final class Texts {
 	public static final String ICONO_LABEL = "icono";
 	
 	public static final String PROJECT_LABEL = "project";
+	public static final String TECHNOLOGY_LABEL = "technology";
 	
 	public static final String PAGE_LABEL = "page";
 	public static final String ACCION_LABEL = "accion";
