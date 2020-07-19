@@ -11,46 +11,59 @@ import org.springframework.stereotype.Component;
 
 import com.myresume.web.app.entities.Technology;
 import com.myresume.web.app.models.TechnologyModel;
+import com.myresume.web.app.repository.PhotoRepository;
 import com.myresume.web.app.repository.TechnologyRepository;
 
 @Component("TechnologyConverter")
 public class TechnologyConverter extends Converter<TechnologyModel, Technology> {
 
 	@Autowired
-	private TechnologyRepository userRepository;
+	private TechnologyRepository technologyRepository;
+	
+	@Autowired
+	private PhotoConverter photoConverter;
+	
+	@Autowired
+	private PhotoRepository photoRepository;
 
 	public TechnologyModel entityToModel(Technology entity) {
 		TechnologyModel model = new TechnologyModel();
 		try {
 			BeanUtils.copyProperties(entity, model);
+			
+			if (entity.getLogo()!=null) {
+				model.setLogo(photoConverter.entityToModel(photoRepository.getOne(entity.getLogo().getId())));
+			}
+			
 		} catch (Exception e) {
-			log.error("Error al convertir la entity en el modelo del Usuario", e);
+			log.error("Error al convertir la entity en el modelo de la Tecnologia", e);
 		}
 
 		return model;
 	}
 
 	public Technology modelToEntity(TechnologyModel model) {
-		Technology user = new Technology();
+		Technology entity = new Technology();
+				
 		if (model.getId() != null && !model.getId().isEmpty()) {
-			user = userRepository.getOne(model.getId());
+			entity = technologyRepository.getOne(model.getId());
 		}
-
+		
 		try {
-			BeanUtils.copyProperties(model, user);
+			BeanUtils.copyProperties(model, entity);
 		} catch (Exception e) {
-			log.error("Error al convertir el modelo del Usuario en entity", e);
+			log.error("Error al convertir el modelo de la Tecnologia en entity", e);
 		}
 
-		return user;
+		return entity;
 	}
 
 	public List<TechnologyModel> entitiesToModels(List<Technology> entities) {
-		List<TechnologyModel> model = new ArrayList<>();
+		List<TechnologyModel> models = new ArrayList<>();
 		for (Technology a : entities) {
-			model.add(entityToModel(a));
+			models.add(entityToModel(a));
 		}
-		return model;
+		return models;
 	}
 
 	@Override

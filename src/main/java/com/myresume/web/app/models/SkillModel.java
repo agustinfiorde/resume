@@ -1,5 +1,10 @@
 package com.myresume.web.app.models;
 
-public class SkillModel {
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class SkillModel extends AuditModel{
 
 }

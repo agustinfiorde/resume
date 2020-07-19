@@ -1,8 +1,8 @@
 package com.myresume.web.app.services;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,10 +22,11 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.myresume.web.app.converters.UserConverter;
 import com.myresume.web.app.entities.User;
-import com.myresume.web.app.enums.Roles;
+import com.myresume.web.app.enums.Role;
 import com.myresume.web.app.errors.WebException;
 import com.myresume.web.app.models.UserModel;
 import com.myresume.web.app.repository.UserRepository;
+import com.myresume.web.app.utils.Fecha;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -85,12 +86,35 @@ public class UserService implements UserDetailsService {
 	}
 
 	public User lilith() {
-		User user = new User();
-		user.setId(UUID.randomUUID().toString());
-		user.setEmail("agulirio@yahoo.com.ar");
-		user.setPassword(new BCryptPasswordEncoder().encode("asdasdasd"));
-		user.setRole(Roles.ADMIN);
-		return userRepository.save(user);
+		if (userRepository.searchByEmail("agulirio@yahoo.com.ar")==null) {
+			User user = new User();
+			user.setEmail("agulirio@yahoo.com.ar");
+			user.setName("Agustin");
+			user.setSecondName("Noe");
+			user.setLastName("Fiordelisi");
+			user.setDateBorn(Fecha.parseFechaGuiones("1991-11-01"));
+			user.setPassword(new BCryptPasswordEncoder().encode("asdasdasd"));
+			user.setRole(Role.ADMIN);
+			user.setRegistered(new Date());
+			return userRepository.save(user);
+		}else {
+			return userRepository.searchByEmail("agulirio@yahoo.com.ar");
+		}
+	}
+
+	public User adam() {
+		if (userRepository.searchByEmail("gta_1942@yahoo.com.ar")==null) {
+			User user = new User();
+			user.setEmail("gta_1942@yahoo.com.ar");
+			user.setName("El");
+			user.setLastName("Invitado");
+			user.setPassword(new BCryptPasswordEncoder().encode("asdasdasd"));
+			user.setRole(Role.GUEST);
+			user.setRegistered(new Date());
+			return userRepository.save(user);
+		}else {
+			return userRepository.searchByEmail("agulirio@yahoo.com.ar");
+		}
 	}
 
 }

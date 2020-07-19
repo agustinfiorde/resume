@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.myresume.web.app.converters.TechnologyConverter;
 import com.myresume.web.app.entities.Technology;
@@ -22,16 +24,25 @@ public class TechnologyService {
 	private TechnologyConverter technologyConverter;
 
 	@Autowired
+	private PhotoService photoService;
+
+	@Autowired
 	private TechnologyRepository technologyRepository;
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = { WebException.class, Exception.class })
-	public Technology save(TechnologyModel model) throws WebException {
+	public Technology save(TechnologyModel model, MultipartFile file) throws WebException {
 		Technology technology = technologyConverter.modelToEntity(model);
 
-//		if (technology.getEliminado() != null) {
-//			throw new WebException("El Obejetivo de Desarrollo Sostenible que intenta modificar se encuentra dada de baja.");
-//		}
+		technology.setLogo(photoService.save(file));
 
+		if (technology.getLogo() == null) {
+			throw new WebException("La Tecnologia debe tener al menos un logo generico");
+		}
+
+		if (technology.getName() == null) {
+			throw new WebException("La Tecnologia debe tener nombre");
+		}
+		
 		return technologyRepository.save(technology);
 	}
 
@@ -42,21 +53,22 @@ public class TechnologyService {
 		return technologyRepository.save(technology);
 	}
 
-	public Page<Technology> listAssets(Pageable paginable, String q) {
-		return technologyRepository.searchAssets(paginable, "%" + q + "%");
+	public Page<TechnologyModel> listAssets(Pageable paginable, String q) {
+		List<TechnologyModel> technologyModels = technologyConverter.entitiesToModels(technologyRepository.searchAssets(paginable, "%" + q + "%").getContent());
+		return new PageImpl<>(technologyModels, paginable, technologyModels.size());
 	}
 
-	public Page<Technology> listAssets(Pageable paginable) {
-		return technologyRepository.searchAssets(paginable);
+	public Page<TechnologyModel> listAssets(Pageable paginable) {
+		List<TechnologyModel> technologyModels = technologyConverter.entitiesToModels(technologyRepository.searchAssets(paginable).getContent());
+		return new PageImpl<>(technologyModels, paginable, technologyModels.size());
 	}
-	
-	public List<Technology> listAssets() {
-		return technologyRepository.searchAssets();
+
+	public List<TechnologyModel> listAssets() {
+		return technologyConverter.entitiesToModels(technologyRepository.searchAssets());
 	}
-	
+
 	public Technology searchById(String id) {
 		return technologyRepository.getOne(id);
 	}
-		
-	
+
 }

@@ -1,11 +1,11 @@
 package com.myresume.web.app.enums;
 
-public enum ProjectRoles {
+public enum ProjectRole {
 	DEVELOPER("Developer"), TECHNICAL_LEADER("Technical Leader"), COLABORATOR("Colaborator");
 
 	private final String role;
 
-	ProjectRoles(String role) {
+	ProjectRole(String role) {
 		this.role = role;
 
 	}

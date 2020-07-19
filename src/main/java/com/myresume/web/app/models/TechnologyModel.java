@@ -1,19 +1,16 @@
 package com.myresume.web.app.models;
 
-import com.myresume.web.app.entities.Photo;
-
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class TechnologyModel {
+@EqualsAndHashCode(callSuper = false)
+public class TechnologyModel extends AuditModel {
 
-	private String id;
-	
-	private Photo logo;
-	
+	private PhotoModel logo;
+
 	private String name;
 	private Integer percent;
-	
+
 	private String description;
-	
 }

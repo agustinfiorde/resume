@@ -10,7 +10,7 @@ import com.myresume.web.app.entities.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, String>{
 
-	@Query("SELECT a from User a WHERE a.email LIKE :email")
+	@Query("SELECT a from User a WHERE a.email LIKE :email AND a.removed IS NULL")
 	public User searchByEmail(@Param("email") String email);
 	
 }

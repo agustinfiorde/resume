@@ -2,7 +2,9 @@ package com.myresume.web.app.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -14,7 +16,7 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.myresume.web.app.enums.Roles;
+import com.myresume.web.app.enums.Role;
 
 import lombok.Data;
 
@@ -30,7 +32,7 @@ public class User implements Serializable {
 	private String id;
 	
 	@Enumerated(EnumType.STRING)
-	private Roles role;
+	private Role role;
 	
 	private String name;
 	private String secondName;
@@ -43,6 +45,20 @@ public class User implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateBorn;
 	private String email;
+		
+	@ElementCollection
+	List<String> phones;
 	
-	private String citizenship;
+	@ElementCollection
+	List<String> citizenships;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date registered;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date edited;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date removed;
+	
 }

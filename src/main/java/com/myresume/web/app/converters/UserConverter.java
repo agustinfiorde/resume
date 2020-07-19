@@ -46,11 +46,11 @@ public class UserConverter extends Converter<UserModel, User> {
 	}
 
 	public List<UserModel> entitiesToModels(List<User> entities) {
-		List<UserModel> model = new ArrayList<>();
+		List<UserModel> models = new ArrayList<>();
 		for (User a : entities) {
-			model.add(entityToModel(a));
+			models.add(entityToModel(a));
 		}
-		return model;
+		return models;
 	}
 
 	@Override

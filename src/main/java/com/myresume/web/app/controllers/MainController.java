@@ -11,12 +11,6 @@ import com.myresume.web.app.services.UserService;
 @RequestMapping("/")
 public class MainController {
 
-	
-	@GetMapping("/imagen")
-	public String imagen() {
-		return "imagen";
-	}
-	
 	@Autowired
 	private UserService userService;
 
@@ -27,11 +21,14 @@ public class MainController {
 
 	@GetMapping("/lilith")
 	public String lilith() {
-
 		userService.lilith();
-		
 		return "redirect:/login";
 	}
-	
-	
+
+	@GetMapping("/adam")
+	public String adam() {
+		userService.adam();
+		return "redirect:/login";
+	}
+
 }

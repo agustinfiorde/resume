@@ -51,14 +51,15 @@
 
 						<div class="card">
 
-							<div class="card-block">
+							<div class="card-block" style="overflow-x:auto;">
 								<table class="table table-striped table-sm">
-									<thead class="thead-inverse">
+									<thead class="thead-inverse" >
 										<tr>
-											<th>Fecha del Incidente</th>
-											<th>Victima</th>
-											<th>Agresor</th>
-											<th>Descargar</th>
+											<th>Nombre</th>
+											<th>Foto</th>
+											<th>Conocimiento</th>
+											<th>Descripcion</th>
+											
 									
 											<th th:if="${url eq '/technology/papelera' or url eq '/technology/auditoria'}">Alta</th>
 											<th th:if="${url eq '/technology/papelera' or url eq '/technology/auditoria'}">Modificación</th>
@@ -68,21 +69,22 @@
 									</thead>
 									<tbody>
 										<tr th:each="objeto : ${page}">
-											<td th:text="${objeto.factTimeString}">Fecha del Indicente</td>
-											<td th:text="${objeto.victim.name}+ ' ' +${objeto.victim.lastName}">Victima</td>
-											<td th:text="${objeto.aggressor.name}+ ' ' +${objeto.aggressor.lastName}">Agresor</td>
-											<td> 
-												<a th:href="@{/technology/pdf/_${objeto.id}_}">PDF</a>
+											<td th:text="${objeto.name}">Nombre</td>
+											<td>
+												<img th:src="@{/photo/load/__${objeto.logo.id}__}" style="width: auto; height: 70px;">
 											</td>
+											<td th:text="${objeto.percent}+' %'">Conocimiento</td>
+											<td th:text="${objeto.description}">Descripcion</td>
+											
 											
 
 											<td th:if="${url eq '/technology/papelera' or url eq '/technology/auditoria'}" th:text="${objeto.fechaAlta} ? ${#dates.format(objeto.fechaAlta, 'dd-MM-yyyy HH:mm')}">Alta</td>
 											<td th:if="${url eq '/technology/papelera' or url eq '/technology/auditoria'}" th:text="${objeto.fechaModificacion} ? ${#dates.format(objeto.fechaModificacion, 'dd-MM-yyyy HH:mm')}">Modificación</td>
 											<td th:if="${url eq '/technology/papelera' or url eq '/technology/auditoria'}" th:text="${objeto.fechaBaja} ? ${#dates.format(objeto.fechaBaja, 'dd-MM-yyyy HH:mm')}">Baja</td>
 											<td style="text-align: right;">
-												<a th:if="${url eq '/technology/listado'}" th:href="@{/technology/formulario(action=update,id=__${objeto.id}__)}" class="icono_action fa fa-pencil-alt"></a>
-												<a th:if="${url eq '/technology/listado'}" th:href="@{/technology/formulario(action=delete,id=__${objeto.id}__)}" class="icono_action fa fa-trash"></a>
-												<a th:if="${url eq '/technology/papelera'}" th:href="@{/technology/formulario(action=recuperar,id=__${objeto.id}__)}" class="icono_action fa fa-undo"></a>
+												<a th:if="${url eq '/technology/list'}" th:href="@{/technology/form(action=update,id=__${objeto.id}__)}" class="icono_action fa fa-pencil-alt"></a>
+												<a th:if="${url eq '/technology/list'}" th:href="@{/technology/form(action=delete,id=__${objeto.id}__)}" class="icono_action fa fa-trash"></a>
+												<a th:if="${url eq '/technology/papelera'}" th:href="@{/technology/form(action=recuperar,id=__${objeto.id}__)}" class="icono_action fa fa-undo"></a>
 											</td>
 										</tr>
 									</tbody>

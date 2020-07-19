@@ -2,22 +2,23 @@ package com.myresume.web.app.services;
 
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.myresume.web.app.entities.Photo;
 import com.myresume.web.app.errors.WebException;
 import com.myresume.web.app.repository.PhotoRepository;
 
+@Service
 public class PhotoService {
 	@Autowired
 	private PhotoRepository photoRepository;
 
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = { WebException.class, Exception.class })
 	public Photo save(MultipartFile archivo) throws WebException {
-		System.out.println(archivo);
 
 		if (archivo != null) {
 			try {
@@ -35,7 +36,7 @@ public class PhotoService {
 		return null;
 	}
 
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = { WebException.class, Exception.class })
 	public Photo update(String idPhoto, MultipartFile archivo) throws WebException {
 		if (archivo != null) {
 			try {
@@ -59,5 +60,9 @@ public class PhotoService {
 		}
 
 		return null;
+	}
+	
+	public Photo getOne(String id) {
+		return photoRepository.getOne(id);
 	}
 }

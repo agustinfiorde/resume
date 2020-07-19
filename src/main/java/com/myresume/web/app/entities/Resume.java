@@ -46,14 +46,17 @@ public class Resume implements Serializable{
 	
 	@ManyToMany
 	private List<Photo> photos;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date created;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date deleted;
-	
+		
 	@Lob
 	@Column(name="description", length=4000)
 	private String description;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date registered;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date edited;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date removed;
 }
