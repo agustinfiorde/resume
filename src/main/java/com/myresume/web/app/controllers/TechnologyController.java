@@ -66,7 +66,7 @@ public class TechnologyController extends OwnController{
 		log.info("METODO: technology.toList() -- PARAMS: " + paginable);
 
 		model.addObject(URL_LABEL, "/technology/list");
-//		model.addObject(TECHNOLOGY_LABEL, new TechnologyModel());
+		model.addObject(TECHNOLOGY_LABEL, new TechnologyModel());
 
 		model.addObject("title", title("Tecnologias","Utilice este modulo para gestionar las Tecnologias"));
 		model.addObject("subTitle", "Listado de Tecnologias");
