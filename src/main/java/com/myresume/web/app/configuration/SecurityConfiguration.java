@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.myresume.web.app.services.UserService;
 
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled=true)
@@ -32,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()
-				.antMatchers("/css/*", "/js/*", "/img/*").permitAll()
+				.antMatchers("/css/*", "/js/*", "/img/*", "/**").permitAll()
 				.and().formLogin()
 					.loginPage("/login")
 						.loginProcessingUrl("/logincheck")
@@ -42,7 +43,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 						.failureUrl("/login")
 						.permitAll()
 				.and().logout()
-					.logoutUrl("/user/logout")
+					.logoutUrl("/logout")
 					.logoutSuccessUrl("/")
 					.permitAll()
 				.and().csrf()
