@@ -27,4 +27,5 @@ public class PhotoController {
 		headers.setContentType(MediaType.IMAGE_PNG);
 		return new ResponseEntity<>(photo.getContent(), headers, HttpStatus.OK);
 	}
+	
 }

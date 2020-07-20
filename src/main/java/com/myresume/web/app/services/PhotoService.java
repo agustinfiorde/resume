@@ -18,22 +18,27 @@ public class PhotoService {
 	private PhotoRepository photoRepository;
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = { WebException.class, Exception.class })
-	public Photo save(MultipartFile archivo) throws WebException {
-
-		if (archivo != null) {
-			try {
-				Photo foto = new Photo();
-				foto.setMime(archivo.getContentType());
-				foto.setName(archivo.getName());
-				foto.setContent(archivo.getBytes());
-
-				return photoRepository.save(foto);
-			} catch (Exception e) {
-				System.err.println(e.getMessage());
-			}
-		}
-
+	public Photo save(Photo photo) throws WebException {
+		
+		if (photo != null ) {
+			return photoRepository.save(photo);
+		} 
+		
 		return null;
+	}
+
+	public Photo convertMultipartFileToPhoto(MultipartFile file) {
+		
+		try {
+			Photo photo = new Photo();
+			photo.setMime(file.getContentType());
+			photo.setName(file.getName());
+			photo.setContent(file.getBytes());
+
+			return photo;
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = { WebException.class, Exception.class })
@@ -61,7 +66,7 @@ public class PhotoService {
 
 		return null;
 	}
-	
+
 	public Photo getOne(String id) {
 		return photoRepository.getOne(id);
 	}

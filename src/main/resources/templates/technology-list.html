@@ -84,7 +84,7 @@
 											<td style="text-align: right;">
 												<a th:if="${url eq '/technology/list'}" th:href="@{/technology/form(action=update,id=__${objeto.id}__)}" class="icono_action fa fa-pencil-alt"></a>
 												<a th:if="${url eq '/technology/list'}" th:href="@{/technology/form(action=delete,id=__${objeto.id}__)}" class="icono_action fa fa-trash"></a>
-												<a th:if="${url eq '/technology/papelera'}" th:href="@{/technology/form(action=recuperar,id=__${objeto.id}__)}" class="icono_action fa fa-undo"></a>
+												<a th:if="${url eq '/technology/list' && objeto.removed != null}" th:href="@{/technology/recover(id=__${objeto.id}__)}" class="icono_action fa fa-undo"></a>
 											</td>
 										</tr>
 									</tbody>

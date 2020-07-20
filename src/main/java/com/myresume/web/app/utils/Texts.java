@@ -9,7 +9,7 @@ public final class Texts {
 	public static final String TECHNOLOGY_LABEL = "technology";
 	
 	public static final String PAGE_LABEL = "page";
-	public static final String ACCION_LABEL = "accion";
+	public static final String ACCION_LABEL = "action";
 
 	public static final String QUERY_LABEL = "q";
 

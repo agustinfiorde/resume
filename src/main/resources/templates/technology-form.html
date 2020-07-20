@@ -48,12 +48,15 @@
 							</div>
 							
 							<div class="form-group">
+<!-- 								<img alt="" class="rounded mx-auto d-block" th:src=" @{technology.logo} != null ? '/photo/load/__${technology.logo.id}__' : '/img/notimagefound.jpg' "  id="img" style="width: 200px;"/> -->
 								<img alt="" class="rounded mx-auto d-block" th:if="${technology.logo != null}" th:src="@{/photo/load/__${technology.logo.id}__}"  id="img" style="width: 200px;"/>
-								<img alt="" class="rounded mx-auto d-block" th:if="${technology.logo == null}" src="https://us.123rf.com/450wm/pavelstasevich/pavelstasevich1811/pavelstasevich181101065/112815953-stock-vector-no-image-available-icon-flat-vector.jpg?ver=6" id="img" style="width: 200px;"/>
+								<img alt="" class="rounded mx-auto d-block" th:unless="${technology.logo != null}" src="/img/notimagefound.jpg" id="img" style="width: 200px;"/>
 							</div>
 							
 							<div class="form-group">
 								<input type="file" class="form-control" id="file" name="file" th:disabled="${action == 'delete'}" />
+								<input type="date" th:if= "${technology.registered != null}" th:field="*{registered}"  style="display:none;"/>
+								<input type="date" th:if= "${technology.edited != null}" th:field="*{edited}"  style="display:none;"/>
 							</div>
 							
 							<div class="form-group slidecontainer">
@@ -87,10 +90,35 @@
 	<script type="text/javascript">
 	
 	function loadPercent() {
-		
 		document.getElementById("percentValue").textContent = document.getElementById("percent").value +"%";
-
 	}
+	
+	function readURL(input) {
+				
+	    if (input.files && input.files[0]) {
+	        var reader = new FileReader();
+
+	        reader.onload = function (e) {
+	            $('#img').attr('src', e.target.result);
+	        }
+
+	        reader.readAsDataURL(input.files[0]);
+	    } 
+	    
+	    if (input.files.length == 0) {
+	        var reader = new FileReader();
+
+	        reader.onload = $('#img').attr('src', '/img/notimagefound.jpg');
+	        
+
+	        reader.readAsDataURL(input.files[0]);
+	    }
+	    
+	}
+
+	$("#file").change(function(){
+	    readURL(this);
+	});
 	
   	</script>
 	

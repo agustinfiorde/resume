@@ -8,4 +8,5 @@ import com.myresume.web.app.entities.Photo;
 @Repository
 public interface PhotoRepository extends JpaRepository<Photo, String> {
 
+	
 }

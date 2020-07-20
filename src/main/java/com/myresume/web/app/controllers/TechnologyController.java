@@ -36,14 +36,14 @@ import com.myresume.web.app.utils.Texts;
 @Controller
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 @RequestMapping("/technology")
-public class TechnologyController extends OwnController{
+public class TechnologyController extends OwnController {
 
 	@Autowired
 	private TechnologyService technologyService;
-	
+
 	@Autowired
 	private TechnologyConverter technologyConverter;
-	
+
 	public TechnologyController() {
 		super("technology-list", "technology-form");
 	}
@@ -51,16 +51,16 @@ public class TechnologyController extends OwnController{
 	@GetMapping("/list")
 	public ModelAndView toList(HttpSession session, Pageable paginable, @RequestParam(required = false) String q) {
 		ModelAndView model = new ModelAndView(listView);
-		
+
 		Page<TechnologyModel> page = null;
-	
+
 		if (q == null || q.isEmpty()) {
-			page = technologyService.listAssets(paginable);
+			page = technologyService.listAll(paginable);
 		} else {
-			page = technologyService.listAssets(paginable, q);
+			page = technologyService.listAll(paginable, q);
 			model.addObject(Texts.QUERY_LABEL, q);
 		}
-		
+
 		model.addObject(PAGE_LABEL, page);
 
 		log.info("METODO: technology.toList() -- PARAMS: " + paginable);
@@ -68,17 +68,18 @@ public class TechnologyController extends OwnController{
 		model.addObject(URL_LABEL, "/technology/list");
 		model.addObject(TECHNOLOGY_LABEL, new TechnologyModel());
 
-		model.addObject("title", title("Tecnologias","Utilice este modulo para gestionar las Tecnologias"));
+		model.addObject("title", title("Tecnologias", "Utilice este modulo para gestionar las Tecnologias"));
 		model.addObject("subTitle", "Listado de Tecnologias");
-		
+
 		session.setAttribute(USER_LABEL, userService.authentication(getUser()));
-		
+
 		return model;
 	}
-	
+
 	@PostMapping("/save")
-	public String save(HttpSession session, @Valid @ModelAttribute(TECHNOLOGY_LABEL) TechnologyModel modelE, @RequestParam MultipartFile file, BindingResult result, ModelMap model) {
-		log.info("METODO: modelE.save -- PARAMETROS: " + modelE);
+	public String save(HttpSession session, @Valid @ModelAttribute(TECHNOLOGY_LABEL) TechnologyModel modelE,
+			@RequestParam MultipartFile file, BindingResult result, ModelMap model) {
+		log.info("METODO: technology.save -- PARAMETROS: " + modelE);
 		try {
 			if (result.hasErrors()) {
 				error(model, result);
@@ -88,38 +89,44 @@ public class TechnologyController extends OwnController{
 			}
 		} catch (WebException e) {
 			loadModel(model, modelE, "update");
-			model.addAttribute(ERROR, "Ocurrió un error al intentar modificar la modelE. " + e.getMessage());
+			model.addAttribute(ERROR, "Ocurrió un error al intentar modificar la Tecnologia. " + e.getMessage());
 		} catch (Exception e) {
 			loadModel(model, modelE, "update");
-			model.addAttribute(ERROR, "Ocurrió un error inesperado al intentar modificar la modelE.");
+			model.addAttribute(ERROR, "Ocurrió un error inesperado al intentar modificar la Tecnologia.");
 			log.error(ERROR_INESPERADO, e);
 		}
 		return formView;
 	}
 
-	@PostMapping("/reload")
-	public String refrescar(HttpSession session, @Valid @ModelAttribute(TECHNOLOGY_LABEL) TechnologyModel modelE, BindingResult result, ModelMap model) {
-		log.info("METODO: modelE.guardar -- PARAMETROS: " + modelE);
-		loadModel(model, modelE, "actualizar");
-		return formView;
+	@GetMapping("/recover")
+	public String refrescar(@RequestParam(required = false) String id) {
+
+		try {
+			technologyService.recover(id);
+		} catch (WebException e) {
+			e.printStackTrace();
+		}
+		return "redirect:/technology/list";
 	}
 
 	@PostMapping("/delete")
 	public String delete(@ModelAttribute(TECHNOLOGY_LABEL) TechnologyModel modelE, ModelMap model) {
-		log.info("METODO: modelE.eliminar() -- PARAMETROS: " + modelE);
+		log.info("METODO: technology.delete() -- PARAMETROS: " + modelE);
 		model.addAttribute(ACCION_LABEL, "eliminar");
 		try {
 			technologyService.delete(modelE.getId());
 			return "redirect:/technology/list";
 		} catch (Exception e) {
-			model.addAttribute(ERROR, "Ocurrió un error inesperado al intentar eliminar la modelE.");
+			model.addAttribute(ERROR, "Ocurrió un error inesperado al intentar eliminar la Tecnologia.");
 			return formView;
 		}
 	}
 
 	@GetMapping("/form")
 	public ModelAndView form(@RequestParam(required = false) String id, @RequestParam(required = false) String action) {
+		
 		ModelAndView model = new ModelAndView(formView);
+
 		TechnologyModel modelE = new TechnologyModel();
 		if (action == null || action.isEmpty()) {
 			action = GUARDAR_LABEL;
@@ -131,11 +138,11 @@ public class TechnologyController extends OwnController{
 
 		loadModel(model.getModelMap(), modelE, action);
 
-		model.addObject("title", title("Tecnologias","Utilice este modulo para cargar una Tecnología"));
+		model.addObject("title", title("Tecnologias", "Utilice este modulo para cargar una Tecnología"));
 		model.addObject("subTitle", "Cargar Tecnología");
 		return model;
 	}
-	
+
 	private void loadModel(ModelMap modelo, TechnologyModel modelE, String accion) {
 
 		modelo.addAttribute(TECHNOLOGY_LABEL, modelE);
