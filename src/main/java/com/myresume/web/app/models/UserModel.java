@@ -3,27 +3,40 @@ package com.myresume.web.app.models;
 import java.util.Date;
 import java.util.List;
 
-import com.myresume.web.app.entities.Photo;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.myresume.web.app.enums.Role;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper = false)
-public class UserModel extends AuditModel {
+public class UserModel {
 
+	private String id;
+	
 	private String name;
 	private String secondName;
 	private String lastName;
-	private Role role;
+	
 	private String password;
+	private String email;
 
-	private Photo profilePicture;
+	private Role role;
+	
+	private PhotoModel profilePicture;
 
 	private Date dateBorn;
-	private String email;
+	
 	private List<String> phones;
 	private List<String> citizenships;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date registered;
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date edited;
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date removed;
 
 }

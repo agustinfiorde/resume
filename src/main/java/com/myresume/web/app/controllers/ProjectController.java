@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.myresume.web.app.entities.Project;
 import com.myresume.web.app.models.ProjectModel;
+import com.myresume.web.app.models.entities.Project;
 import com.myresume.web.app.services.ProjectService;
 import com.myresume.web.app.utils.Texts;
 
 @Controller
-@PreAuthorize("hasRole('ROLE_ADMIN')")
+@PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_GUEST')")
 @RequestMapping("/project")
 public class ProjectController extends OwnController {
 	
@@ -49,7 +49,7 @@ public class ProjectController extends OwnController {
 		
 		model.addObject(PAGE_LABEL, page);
 
-		log.info("METODO: project.toList() -- PARAMS: " + paginable);
+		log.info("METHOD: project.toList() -- PARAMS: " + paginable);
 
 		model.addObject(URL_LABEL, "/project/list");
 		model.addObject(PROJECT_LABEL, new ProjectModel());

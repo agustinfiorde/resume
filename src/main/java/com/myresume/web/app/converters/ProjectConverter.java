@@ -3,15 +3,13 @@ package com.myresume.web.app.converters;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.myresume.web.app.entities.Project;
-import com.myresume.web.app.entities.Technology;
 import com.myresume.web.app.models.ProjectModel;
+import com.myresume.web.app.models.entities.Project;
+import com.myresume.web.app.models.entities.Technology;
 import com.myresume.web.app.repository.CompanyRepository;
 import com.myresume.web.app.repository.PhotoRepository;
 import com.myresume.web.app.repository.ProjectRepository;
@@ -21,43 +19,41 @@ public class ProjectConverter extends Converter<ProjectModel, Project> {
 
 	@Autowired
 	private ProjectRepository userRepository;
-	
+
 	@Autowired
 	private PhotoRepository photoRepository;
-	
+
 	@Autowired
 	private PhotoConverter photoConverter;
-	
+
 	@Autowired
 	private CompanyRepository companyRepository;
-	
+
 	@Autowired
 	private CompanyConverter companyConverter;
-		
+
 	@Autowired
 	private TechnologyConverter technologyConverter;
-	
-
 
 	public ProjectModel entityToModel(Project entity) {
 		ProjectModel model = new ProjectModel();
 		try {
 			BeanUtils.copyProperties(entity, model);
-			
-			if (entity.getPhoto()!=null) {
+
+			if (entity.getPhoto() != null) {
 				model.setPhoto(photoConverter.entityToModel(photoRepository.getOne(entity.getPhoto().getId())));
 			}
-			
-			if (entity.getCompany()!=null) {
+
+			if (entity.getCompany() != null) {
 				model.setCompany(companyConverter.entityToModel(companyRepository.getOne(entity.getCompany().getId())));
 			}
-			
-			if (entity.getTechnologies()!=null) {
+
+			if (entity.getTechnologies() != null) {
 				for (Technology e : entity.getTechnologies()) {
 					model.getTechnologies().add(technologyConverter.entityToModel(e));
 				}
 			}
-			
+
 		} catch (Exception e) {
 			log.error("Error al convertir la entity en el modelo del Proyecto", e);
 		}
@@ -66,12 +62,14 @@ public class ProjectConverter extends Converter<ProjectModel, Project> {
 	}
 
 	public Project modelToEntity(ProjectModel model) {
-		Project entity = new Project();
-				
+		Project entity;
+
 		if (model.getId() != null && !model.getId().isEmpty()) {
 			entity = userRepository.getOne(model.getId());
+		} else {
+			entity = new Project();
 		}
-		
+
 		try {
 			BeanUtils.copyProperties(model, entity);
 		} catch (Exception e) {
@@ -91,20 +89,11 @@ public class ProjectConverter extends Converter<ProjectModel, Project> {
 
 	@Override
 	public List<Project> modelsToEntities(List<ProjectModel> m) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public JSONObject entityTOJSON(Project e) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public JSONArray entitiesTOJSON(List<Project> e) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Project> entities = new ArrayList<>();
+		for (ProjectModel model : m) {
+			entities.add(modelToEntity(model));
+		}
+		return entities;
 	}
 
 }

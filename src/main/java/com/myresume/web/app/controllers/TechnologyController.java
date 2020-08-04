@@ -1,10 +1,10 @@
 package com.myresume.web.app.controllers;
 
-import static com.myresume.web.app.utils.Texts.ACCION_LABEL;
+import static com.myresume.web.app.utils.Texts.ACTION_LABEL;
 import static com.myresume.web.app.utils.Texts.ERROR;
 import static com.myresume.web.app.utils.Texts.ERROR_INESPERADO;
-import static com.myresume.web.app.utils.Texts.GUARDAR_LABEL;
 import static com.myresume.web.app.utils.Texts.PAGE_LABEL;
+import static com.myresume.web.app.utils.Texts.SAVE_LABEL;
 import static com.myresume.web.app.utils.Texts.TECHNOLOGY_LABEL;
 import static com.myresume.web.app.utils.Texts.URL_LABEL;
 import static com.myresume.web.app.utils.Texts.USER_LABEL;
@@ -27,22 +27,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.myresume.web.app.converters.PhotoConverter;
 import com.myresume.web.app.converters.TechnologyConverter;
 import com.myresume.web.app.errors.WebException;
 import com.myresume.web.app.models.TechnologyModel;
+import com.myresume.web.app.services.PhotoService;
 import com.myresume.web.app.services.TechnologyService;
 import com.myresume.web.app.utils.Texts;
 
 @Controller
-@PreAuthorize("hasRole('ROLE_ADMIN')")
+@PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_GUEST')")
 @RequestMapping("/technology")
 public class TechnologyController extends OwnController {
 
 	@Autowired
 	private TechnologyService technologyService;
+	
+	@Autowired
+	private PhotoService photoService;
 
 	@Autowired
 	private TechnologyConverter technologyConverter;
+	
+	@Autowired
+	private PhotoConverter photoConverter;
 
 	public TechnologyController() {
 		super("technology-list", "technology-form");
@@ -63,27 +71,30 @@ public class TechnologyController extends OwnController {
 
 		model.addObject(PAGE_LABEL, page);
 
-		log.info("METODO: technology.toList() -- PARAMS: " + paginable);
+		log.info("METHOD: technology.toList() -- PARAMS: " + paginable);
 
 		model.addObject(URL_LABEL, "/technology/list");
 		model.addObject(TECHNOLOGY_LABEL, new TechnologyModel());
 
-		model.addObject("title", title("Tecnologias", "Utilice este modulo para gestionar las Tecnologias"));
-		model.addObject("subTitle", "Listado de Tecnologias");
+		model.addObject("title", title("Technologies", "Use this module to manage Technologies"));
+		model.addObject("subTitle", "List of Technologies");
 
 		session.setAttribute(USER_LABEL, userService.authentication(getUser()));
 
 		return model;
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/save")
 	public String save(HttpSession session, @Valid @ModelAttribute(TECHNOLOGY_LABEL) TechnologyModel modelE,
 			@RequestParam MultipartFile file, BindingResult result, ModelMap model) {
-		log.info("METODO: technology.save -- PARAMETROS: " + modelE);
+		log.info("METHOD: technology.save -- PARAMETROS: " + modelE);
 		try {
 			if (result.hasErrors()) {
 				error(model, result);
 			} else {
+				//revisar como manejo la logica 
+//				modelE.setLogo(photoConverter.entityToModel(photoService.convertMultipartFileToPhoto(file)));
 				technologyService.save(modelE, file);
 				return "redirect:/technology/list";
 			}
@@ -98,6 +109,7 @@ public class TechnologyController extends OwnController {
 		return formView;
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/recover")
 	public String refrescar(@RequestParam(required = false) String id) {
 
@@ -109,10 +121,11 @@ public class TechnologyController extends OwnController {
 		return "redirect:/technology/list";
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/delete")
 	public String delete(@ModelAttribute(TECHNOLOGY_LABEL) TechnologyModel modelE, ModelMap model) {
-		log.info("METODO: technology.delete() -- PARAMETROS: " + modelE);
-		model.addAttribute(ACCION_LABEL, "eliminar");
+		log.info("METHOD: technology.delete() -- PARAMETROS: " + modelE);
+		model.addAttribute(ACTION_LABEL, "eliminar");
 		try {
 			technologyService.delete(modelE.getId());
 			return "redirect:/technology/list";
@@ -122,6 +135,7 @@ public class TechnologyController extends OwnController {
 		}
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/form")
 	public ModelAndView form(@RequestParam(required = false) String id, @RequestParam(required = false) String action) {
 		
@@ -129,24 +143,24 @@ public class TechnologyController extends OwnController {
 
 		TechnologyModel modelE = new TechnologyModel();
 		if (action == null || action.isEmpty()) {
-			action = GUARDAR_LABEL;
+			action = SAVE_LABEL;
 		}
 
 		if (id != null) {
-			modelE = technologyConverter.entityToModel(technologyService.searchById(id));
+			modelE = technologyConverter.entityToModel(technologyService.searchById(id).get());
 		}
 
 		loadModel(model.getModelMap(), modelE, action);
 
-		model.addObject("title", title("Tecnologias", "Utilice este modulo para cargar una Tecnología"));
-		model.addObject("subTitle", "Cargar Tecnología");
+		model.addObject("title", title("Technologies", "Use this module to load a Technology"));
+		model.addObject("subTitle", "Load Technology");
 		return model;
 	}
 
-	private void loadModel(ModelMap modelo, TechnologyModel modelE, String accion) {
+	private void loadModel(ModelMap modelo, TechnologyModel modelE, String action) {
 
 		modelo.addAttribute(TECHNOLOGY_LABEL, modelE);
-		modelo.addAttribute(ACCION_LABEL, accion);
+		modelo.addAttribute(ACTION_LABEL, action);
 
 	}
 

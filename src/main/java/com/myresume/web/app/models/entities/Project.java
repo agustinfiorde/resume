@@ -1,39 +1,29 @@
-package com.myresume.web.app.entities;
+package com.myresume.web.app.models.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import org.hibernate.annotations.GenericGenerator;
 
 import com.myresume.web.app.enums.ProjectRole;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper=true)
 @Entity
-public class Project implements Serializable {
+public class Project extends Audit implements Serializable {
 
 	private static final long serialVersionUID = 6522896498689132123L;
-	
-	@Id
-	@GeneratedValue(generator = "uuid")
-	@GenericGenerator(name = "uuid", strategy = "uuid2")
-	private String id;
-	
+
 	private String name;
 
 	@ManyToMany
@@ -51,14 +41,5 @@ public class Project implements Serializable {
 
 	@ManyToOne
 	private Company company;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date registered;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date edited;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date removed;
 
 }

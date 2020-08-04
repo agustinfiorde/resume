@@ -11,9 +11,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.myresume.web.app.converters.ProjectConverter;
-import com.myresume.web.app.entities.Project;
 import com.myresume.web.app.errors.WebException;
 import com.myresume.web.app.models.ProjectModel;
+import com.myresume.web.app.models.entities.Project;
 import com.myresume.web.app.repository.ProjectRepository;
 
 @Service

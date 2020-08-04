@@ -1,15 +1,13 @@
-package com.myresume.web.app.entities;
+package com.myresume.web.app.models.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 
-import javax.persistence.Column;
+import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -17,7 +15,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Hobby implements Serializable {
+public class Photo implements Serializable {
 
 	private static final long serialVersionUID = 6522896498689132123L;
 
@@ -27,17 +25,10 @@ public class Hobby implements Serializable {
 	private String id;
 	
 	private String name;
+	private String mime;
 
 	@Lob
-	@Column(name = "description", length = 4000)
-	private String description;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date registered;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date edited;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date removed;
+	@Basic(fetch = FetchType.LAZY)
+	private byte[] content;
+	
 }

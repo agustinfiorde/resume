@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.myresume.web.app.entities.Project;
+import com.myresume.web.app.models.entities.Project;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, String>{

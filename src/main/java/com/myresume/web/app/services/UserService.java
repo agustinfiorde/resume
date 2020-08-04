@@ -21,12 +21,12 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.myresume.web.app.converters.UserConverter;
-import com.myresume.web.app.entities.User;
 import com.myresume.web.app.enums.Role;
 import com.myresume.web.app.errors.WebException;
 import com.myresume.web.app.models.UserModel;
+import com.myresume.web.app.models.entities.User;
 import com.myresume.web.app.repository.UserRepository;
-import com.myresume.web.app.utils.Fecha;
+import com.myresume.web.app.utils.UtilDate;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -92,7 +92,7 @@ public class UserService implements UserDetailsService {
 			user.setName("Agustin");
 			user.setSecondName("Noe");
 			user.setLastName("Fiordelisi");
-			user.setDateBorn(Fecha.parseFechaGuiones("1991-11-01"));
+			user.setDateBorn(UtilDate.parseFechaGuiones("1991-11-01"));
 			user.setPassword(new BCryptPasswordEncoder().encode("asdasdasd"));
 			user.setRole(Role.ADMIN);
 			user.setRegistered(new Date());
@@ -103,7 +103,7 @@ public class UserService implements UserDetailsService {
 	}
 
 	public User adam() {
-		if (userRepository.searchByEmail("gta_1942@yahoo.com.ar")==null) {
+		if (userRepository.searchByEmail("gta_1942@hotmail.com")==null) {
 			User user = new User();
 			user.setEmail("gta_1942@yahoo.com.ar");
 			user.setName("El");
@@ -113,7 +113,7 @@ public class UserService implements UserDetailsService {
 			user.setRegistered(new Date());
 			return userRepository.save(user);
 		}else {
-			return userRepository.searchByEmail("agulirio@yahoo.com.ar");
+			return userRepository.searchByEmail("gta_1942@hotmail.com");
 		}
 	}
 

@@ -3,14 +3,12 @@ package com.myresume.web.app.converters;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.myresume.web.app.entities.Photo;
 import com.myresume.web.app.models.PhotoModel;
+import com.myresume.web.app.models.entities.Photo;
 import com.myresume.web.app.repository.PhotoRepository;
 
 @Component("PhotoConverter")
@@ -31,18 +29,20 @@ public class PhotoConverter extends Converter<PhotoModel, Photo> {
 	}
 
 	public Photo modelToEntity(PhotoModel model) {
-		Photo photo = new Photo();
+		Photo entity;
 		if (model.getId() != null && !model.getId().isEmpty()) {
-			photo = photoRepository.getOne(model.getId());
+			entity = photoRepository.getOne(model.getId());
+		} else {
+			entity = new Photo();
 		}
 
 		try {
-			BeanUtils.copyProperties(model, photo);
+			BeanUtils.copyProperties(model, entity);
 		} catch (Exception e) {
 			log.error("Error al convertir el modelo de la Foto en entity", e);
 		}
 
-		return photo;
+		return entity;
 	}
 
 	public List<PhotoModel> entitiesToModels(List<Photo> entities) {
@@ -55,20 +55,11 @@ public class PhotoConverter extends Converter<PhotoModel, Photo> {
 
 	@Override
 	public List<Photo> modelsToEntities(List<PhotoModel> m) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public JSONObject entityTOJSON(Photo e) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public JSONArray entitiesTOJSON(List<Photo> e) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Photo> entities = new ArrayList<>();
+		for (PhotoModel model : m) {
+			entities.add(modelToEntity(model));
+		}
+		return entities;
 	}
 
 }

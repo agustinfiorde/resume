@@ -1,40 +1,75 @@
 package com.myresume.web.app.models;
 
+import java.util.Date;
 import java.util.List;
 
-import com.myresume.web.app.entities.Experience;
-import com.myresume.web.app.entities.Hobby;
-import com.myresume.web.app.entities.Photo;
-import com.myresume.web.app.entities.Skill;
-import com.myresume.web.app.entities.User;
+import javax.validation.constraints.NotNull;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
+@Document(collection = "resumes")
 @Data
-@EqualsAndHashCode(callSuper = false)
-public class ResumeModel extends AuditModel {
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@JsonPropertyOrder
+public class ResumeModel {
 
-	private User user;
+    @NotNull
+    @Id
+	private String id;
+	
+    @Field
+	private UserModel user;
 
+    @Field
 	private String urlGit;
 
-	private List<Skill> skills;
+    @Field
+	private List<SkillModel> skills;
 	private List<String> idSkills;
 	private String skillsSelected = "";
 
-	private List<Hobby> hobbies;
+	@Field
+	private List<HobbyModel> hobbies;
 	private List<String> idHobbies;
 	private String hobbiesSelected = "";
 
-	private List<Experience> experiences;
+	@Field
+	private List<ExperienceModel> experiences;
 	private List<String> idExperiences;
 	private String experiencesSelected = "";
 
-	private List<Photo> photos;
+	@Field
+	private List<PhotoModel> photos;
 	private List<String> idPhotos;
 	private String photosSelected = "";
 
+	@Field
 	private String description;
+	
+	private String currentDay;
+	
+	@Field
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date registered;
+
+	@Field
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date edited;
+
+	@Field
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date removed;
 
 }

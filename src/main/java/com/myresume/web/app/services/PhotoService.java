@@ -8,12 +8,13 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.myresume.web.app.entities.Photo;
 import com.myresume.web.app.errors.WebException;
+import com.myresume.web.app.models.entities.Photo;
 import com.myresume.web.app.repository.PhotoRepository;
 
 @Service
 public class PhotoService {
+	
 	@Autowired
 	private PhotoRepository photoRepository;
 
@@ -28,7 +29,6 @@ public class PhotoService {
 	}
 
 	public Photo convertMultipartFileToPhoto(MultipartFile file) {
-		
 		try {
 			Photo photo = new Photo();
 			photo.setMime(file.getContentType());

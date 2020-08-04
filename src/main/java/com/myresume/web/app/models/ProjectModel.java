@@ -1,16 +1,19 @@
 package com.myresume.web.app.models;
 
+import java.util.Date;
 import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.myresume.web.app.enums.ProjectRole;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper = false)
-public class ProjectModel extends AuditModel{
+public class ProjectModel{
 
+	private String id;
+	
 	private String name;
 
 	private List<TechnologyModel> technologies;
@@ -24,5 +27,14 @@ public class ProjectModel extends AuditModel{
 	private PhotoModel photo;
 
 	private CompanyModel company;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date registered;
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date edited;
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date removed;
 	
 }

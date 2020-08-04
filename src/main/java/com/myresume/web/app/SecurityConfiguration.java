@@ -1,4 +1,4 @@
-package com.myresume.web.app.configuration;
+package com.myresume.web.app;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

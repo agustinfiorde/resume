@@ -26,33 +26,37 @@
 
 				<hr style="margin-top: 10px; margin-bottom: 5px;" />
 
-				<li th:if="${#authorization.expression('hasRole(''ADMIN'')')}"><a th:href="@{/resume/list}"> <i
+				<li ><a th:href="@{/resume/list}"> <i
 						class="fa fa-address-card"></i> <span>CV</span>
 				</a></li>
 
-				<li th:if="${#authorization.expression('hasRole(''ADMIN'')')}"><a th:href="@{/project/list}"> <i
-						class="fa fa-desktop" ></i> <span>Proyectos</span>
+				<li ><a th:href="@{/project/list}"> <i
+						class="fa fa-desktop" ></i> <span>Projects</span>
 				</a></li>
 
-				<li th:if="${#authorization.expression('hasRole(''ADMIN'')')}"><a th:href="@{/technology/list}"> <i
-						class="fa fa-wrench"></i> <span>Tecnologias</span>
+				<li ><a th:href="@{/technology/list}"> <i
+						class="fa fa-wrench"></i> <span>Technologies</span>
 				</a></li>
 
-				<li th:if="${#authorization.expression('hasRole(''ADMIN'')')}"><a th:href="@{/skill/list}"> <i
-						class="fa fa-assistive-listening-systems"></i> <span>Habilidades</span>
+				<li ><a th:href="@{/skill/list}"> <i
+						class="fa fa-assistive-listening-systems"></i> <span>Skills</span>
 				</a></li>
 
-				<li th:if="${#authorization.expression('hasRole(''ADMIN'')')}"><a th:href="@{/hobby/list}"> <i
+				<li ><a th:href="@{/hobby/list}"> <i
 						class="fa fa-bicycle"></i> <span>Hobbies</span>
 				</a></li>
 
-				<li th:if="${#authorization.expression('hasRole(''ADMIN'')')}"><a th:href="@{/experience/list}"> <i
-						class="fa fa-hands-helping"></i> <span>Experiencia</span>
+				<li ><a th:href="@{/experience/list}"> <i
+						class="fa fa-hands-helping"></i> <span>Experience</span>
 				</a></li>
 
-				<li th:if="${#authorization.expression('hasRole(''ADMIN'')')}"><a th:href="@{/company/list}"> <i
-						class="fa fa-university"	></i> <span>Empresas</span>
+				<li ><a th:href="@{/company/list}"> <i
+						class="fa fa-university"	></i> <span>Companies</span>
 				</a></li>
+				
+<!-- 				<li th:if="${#authorization.expression('hasRole(''ADMIN'')')}"><a th:href="@{/company/list}"> <i -->
+<!-- 						class="fa fa-university"	></i> <span>Empresas</span> -->
+<!-- 				</a></li> -->
 
 			</ul>
 		</section>

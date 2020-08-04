@@ -8,7 +8,7 @@ import java.util.Locale;
 import org.joda.time.DateTime;
 
 
-public class Fecha  
+public class UtilDate  
 {
 	public static SimpleDateFormat FECHA_GUIONES = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -18,7 +18,7 @@ public class Fecha
 
 	public static SimpleDateFormat FECHA_DIA = new SimpleDateFormat("EEEE dd", Locale.forLanguageTag("es"));
 
-	private static final Fecha instance = new Fecha();
+	private static final UtilDate instance = new UtilDate();
 
 	public static NumberFormat FORMATO_INGLES;
 	public static NumberFormat FORMATO_ESPANOL;
@@ -35,7 +35,7 @@ public class Fecha
 		FORMATO_ESPANOL.setGroupingUsed(true);
 	}
 
-	public static Fecha getInstance() {
+	public static UtilDate getInstance() {
 		return instance;
 	}
 	

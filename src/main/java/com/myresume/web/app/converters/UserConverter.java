@@ -3,14 +3,12 @@ package com.myresume.web.app.converters;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.myresume.web.app.entities.User;
 import com.myresume.web.app.models.UserModel;
+import com.myresume.web.app.models.entities.User;
 import com.myresume.web.app.repository.UserRepository;
 
 @Component("UserConverter")
@@ -31,18 +29,20 @@ public class UserConverter extends Converter<UserModel, User> {
 	}
 
 	public User modelToEntity(UserModel model) {
-		User user = new User();
+		User entity;
 		if (model.getId() != null && !model.getId().isEmpty()) {
-			user = userRepository.getOne(model.getId());
+			entity = userRepository.getOne(model.getId());
+		} else {
+			entity = new User();
 		}
 
 		try {
-			BeanUtils.copyProperties(model, user);
+			BeanUtils.copyProperties(model, entity);
 		} catch (Exception e) {
 			log.error("Error al convertir el modelo del Usuario en entity", e);
 		}
 
-		return user;
+		return entity;
 	}
 
 	public List<UserModel> entitiesToModels(List<User> entities) {
@@ -55,20 +55,11 @@ public class UserConverter extends Converter<UserModel, User> {
 
 	@Override
 	public List<User> modelsToEntities(List<UserModel> m) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public JSONObject entityTOJSON(User e) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public JSONArray entitiesTOJSON(List<User> e) {
-		// TODO Auto-generated method stub
-		return null;
+		List<User> entities = new ArrayList<>();
+		for (UserModel model : m) {
+			entities.add(modelToEntity(model));
+		}
+		return entities;
 	}
 
 }
