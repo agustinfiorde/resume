@@ -1,49 +1,101 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/fronttemplates :: headfront"></head>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+<meta charset="utf-8" />
+<title>ANF-Resume</title>
+<base href="/" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+
+
+<link href="/css/styles.css" rel="stylesheet" />
+
+<meta name="description" content="My template for my resume page" />
+<meta name="author" content="Agustin Noe Fiordelisi" />
+<script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+
+</head>
 
 <body>
-
-	<div class="wrapper">
-
-		<main id="main">
-
-		<div class="breadcrumbs" data-aos="fade-in">
-			<div class="container">
-				<h2>Login</h2>
+	<nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-shrink" id="mainNav">
+		<div class="container">
+			<a class="navbar-brand js-scroll-trigger" href="http://localhost:4200/">Agustin N. Fiordelisi</a>
+			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+				aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+				Menu <i class="fas fa-bars"></i>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item"><a class="nav-link js-scroll-trigger" href="http://localhost:4200/">About</a></li>
+					<li class="nav-item"><a class="nav-link js-scroll-trigger" href="http://localhost:4200/resume">Resume</a></li>
+					<li class="nav-item"><a class="nav-link js-scroll-trigger" href="http://localhost:4200/projects">Projects</a></li>
+					<li class="nav-item"><a class="nav-link js-scroll-trigger" href="http://localhost:4200/contact">Contact</a></li>
+					<li class="nav-item"><a class="nav-link js-scroll-trigger" href="#">Log in <i class="fas fa-dog"></i></a></li>
+				</ul>
 			</div>
 		</div>
+	</nav>
 
-		<!-- ======= Contact Section ======= -->
-		<section id="contact" class="contact">
-			<div class="container" data-aos="fade-up">
-				<div class="row mt-5 justify-content-center align-items-center">
-					<div class="col-lg-6 mt-5 mt-lg-0">
-						<form action="/logincheck" method="POST" role="form">
-							<div class="form-row">
-								<div class="col-md-6 form-group">
-									<input type="text" name="email" class="form-control" id="email" placeholder="e-Mail" data-rule="minlen:4"
-										data-msg="Por favor, ingrese al menos 4 letras" />
-									<div class="validate"></div>
-								</div>
-								<div class="col-md-6 form-group">
-									<input type="password" name="password" class="form-control" id="password" placeholder="Clave" data-rule="minlen:4"
-										data-msg="Por favor, ingrese al menos 4 letras" />
-									<div class="validate"></div>
-								</div>
-							</div>
+	<section class="about-section text-center">
+		<div class="container">
+			<div class="row">
+				<div class="mx-auto text-center">
+					<h2 class="text-white-50 mx-auto mt-2 mb-5">Dog in</h2>
+					<p class="text-white-50">
+						If you do not have a username and temporary password to access, request it here <a href="">Bark me! 
+						<i class="fas fa-dog"></i></a>
+					</p>
+					<h6 class="mx-auto mt-2 mb-5" style="color:red;"> a</h6><!-- 					**You don't have access -->
+					<form class="form-inline d-flex" action="/logincheck" method="POST" role="form">
 
-							<div class="text-center">
-								<!-- 								<button class="btnwhite" value="Submit" style="float: left;">INGRESAR</button> -->
-								<button type="submit">INGRESAR</button>
+								<input type="text" name="email" class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" id="email" placeholder="e-Mail" data-rule="minlen:4"
+									data-msg="Por favor, ingrese al menos 4 letras" />
+								<div class="validate"></div>
 
-							</div>
-						</form>
-					</div>
+								<input type="password" name="password" class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" id="password" placeholder="Clave" data-rule="minlen:4"
+									data-msg="Por favor, ingrese al menos 4 letras" />
+								<div class="validate"></div>
+
+						<button class="btn btn-primary js-scroll-trigger" type="submit">INGRESAR</button>
+					</form>
 				</div>
 			</div>
-		</section>
+		</div>
+	</section>
 
-	</div>
+	<section class="signup-section" id="signup">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-10 col-lg-8 mx-auto text-center">
+					<i class="far fa-paper-plane fa-2x mb-2 text-white"></i>
+					<h3 class="text-white mb-5">Subscribe to get access to the administrative panel!</h3>
+					<form class="form-inline d-flex">
+						<input class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" id="inputEmail" type="email"
+							placeholder="Enter email address..." />
+						<button class="btn btn-secondary mx-auto" type="submit">Subscribe</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="contact-section bg-blue">
+		<div class="container">
+			<div class="social d-flex justify-content-center">
+				<a class="mx-2" href="https://www.linkedin.com/in/agustin-fiordelisi/"><i class="fab fa-linkedin"></i></a> <a class="mx-2"
+					href="https://github.com/agustinfiorde"><i class="fab fa-github"></i></a>
+			</div>
+		</div>
+	</section>
+	<footer class="footer bg-blue small text-center text-white-50">
+		<div class="container">My resume © Made by myself</div>
+	</footer>
 </body>
 </html>

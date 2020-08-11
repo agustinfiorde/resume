@@ -131,7 +131,6 @@ public class ResumeConverter extends Converter<ResumeModel, Resume> {
 			BeanUtils.copyProperties(model, entity);
 			
 			
-			
 		} catch (Exception e) {
 			log.error("Error al convertir el modelo de la Tecnologia en entity", e);
 		}

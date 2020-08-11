@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.myresume.web.app.converters.TechnologyConverter;
 import com.myresume.web.app.errors.WebException;
@@ -21,13 +20,10 @@ import com.myresume.web.app.repository.PhotoRepository;
 import com.myresume.web.app.repository.TechnologyRepository;
 
 @Service
-public class TechnologyService {
+public class TechnologyService implements OwnService<TechnologyModel, Technology>{
 
 	@Autowired
 	private TechnologyConverter technologyConverter;
-
-	@Autowired
-	private PhotoService photoService;
 
 	@Autowired
 	private PhotoRepository photoRepository;
@@ -35,25 +31,20 @@ public class TechnologyService {
 	@Autowired
 	private TechnologyRepository technologyRepository;
 
+	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = { WebException.class, Exception.class })
-	public Technology save(TechnologyModel model, MultipartFile file) throws WebException {
+	public Technology save(TechnologyModel model) throws WebException {
 
 		Technology entity = technologyConverter.modelToEntity(model);
 
-		if (file.getSize() == 0 && entity.getLogo() == null) {
-			throw new WebException("La Tecnologia debe tener al menos un logo generico");
-		}
+//		if (entity.getLogo() == null) {
+//			entity.setLogo(photoService.save(entity.getLogo()));
+//		} else {
+//			photoRepository.delete(photoRepository.getOne(entity.getLogo().getId()));
+//			entity.setLogo(photoService.save(entity.getLogo()));
+//		}
 
-		if (file.getSize() != 0 && entity.getLogo() == null) {
-			entity.setLogo(photoService.save(photoService.convertMultipartFileToPhoto(file)));
-		}
-
-		if (file.getSize() != 0 && entity.getLogo() != null) {
-			photoRepository.delete(photoRepository.getOne(entity.getLogo().getId()));
-			entity.setLogo(photoService.save(photoService.convertMultipartFileToPhoto(file)));
-		}
-
-		if (entity.getName() == null || entity.getName().isEmpty() || entity.getName().contains("  ")) {
+		if (entity.getName() == null || entity.getName().isEmpty()) {
 			throw new WebException("La Tecnologia debe tener nombre valido");
 		}
 
@@ -63,9 +54,12 @@ public class TechnologyService {
 			entity.setEdited(new Date());
 		}
 
+		photoRepository.save(entity.getLogo());
+		
 		return technologyRepository.save(entity);
 	}
 
+	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = { WebException.class, Exception.class })
 	public Technology delete(String id) throws WebException {
 		Technology entity = technologyRepository.getOne(id);
@@ -76,7 +70,8 @@ public class TechnologyService {
 
 		return technologyRepository.save(entity);
 	}
-	
+
+	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = { WebException.class, Exception.class })
 	public Technology recover(String id) throws WebException {
 		Technology entity = technologyRepository.getOne(id);
@@ -88,18 +83,22 @@ public class TechnologyService {
 		return technologyRepository.save(entity);
 	}
 
+	@Override
 	@Transactional(readOnly = true)
 	public Page<TechnologyModel> listAll(Pageable paginable, String q) {
 		List<TechnologyModel> models;
 		try {
-			models = technologyConverter.entitiesToModels(technologyRepository.searchAllByPercent(paginable, Integer.parseInt(q)).getContent());
+			models = technologyConverter.entitiesToModels(
+					technologyRepository.searchAllByPercent(paginable, Integer.parseInt(q)).getContent());
 			return new PageImpl<>(models, paginable, models.size());
 		} catch (NumberFormatException e) {
-			models = technologyConverter.entitiesToModels(technologyRepository.searchAll(paginable, "%" + q + "%").getContent());
+			models = technologyConverter
+					.entitiesToModels(technologyRepository.searchAll(paginable, "%" + q + "%").getContent());
 			return new PageImpl<>(models, paginable, models.size());
 		}
 	}
 
+	@Override
 	@Transactional(readOnly = true)
 	public Page<TechnologyModel> listAll(Pageable paginable) {
 		List<TechnologyModel> models = technologyConverter
@@ -107,11 +106,13 @@ public class TechnologyService {
 		return new PageImpl<>(models, paginable, models.size());
 	}
 
+	@Override
 	@Transactional(readOnly = true)
 	public List<TechnologyModel> listAssets() {
 		return technologyConverter.entitiesToModels(technologyRepository.searchAssets());
 	}
 
+	@Override
 	@Transactional(readOnly = true)
 	public Optional<Technology> searchById(String id) {
 		return technologyRepository.findById(id);

@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.myresume.web.app.errors.WebException;
 
-public interface Service <M extends Object, E extends Object>{
+public interface OwnService <M extends Object, E extends Object>{
 	
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = { WebException.class, Exception.class })
 	public abstract E save(M m) throws WebException;

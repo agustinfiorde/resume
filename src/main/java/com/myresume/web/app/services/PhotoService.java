@@ -1,6 +1,7 @@
 package com.myresume.web.app.services;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.myresume.web.app.errors.WebException;
+import com.myresume.web.app.models.PhotoModel;
 import com.myresume.web.app.models.entities.Photo;
 import com.myresume.web.app.repository.PhotoRepository;
 
@@ -28,7 +30,30 @@ public class PhotoService {
 		return null;
 	}
 
-	public Photo convertMultipartFileToPhoto(MultipartFile file) {
+	public PhotoModel convertMultipartFileToPhotoModel(MultipartFile file) throws WebException {
+		
+		if (file.getSize() == 0 ) {
+			throw new WebException("La Tecnologia debe tener al menos un logo generico");
+		}
+		
+		try {
+			PhotoModel photo = new PhotoModel();
+			photo.setMime(file.getContentType());
+			photo.setName(file.getName());
+			photo.setContent(file.getBytes());
+
+			return photo;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	public Photo convertMultipartFileToPhoto(MultipartFile file) throws WebException {
+		
+		if (file.getSize() == 0 ) {
+			throw new WebException("La Tecnologia debe tener al menos un logo generico");
+		}
+		
 		try {
 			Photo photo = new Photo();
 			photo.setMime(file.getContentType());

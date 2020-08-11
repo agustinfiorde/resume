@@ -1,8 +1,8 @@
 spring:  
   datasource: 
     url: jdbc:mysql://localhost:3306/myresume?allowPublicKeyRetrieval=true&useSSL=false&useTimezone=true&serverTimezone=GMT&characterEncoding=UTF-8
-    username: root
-    password: root
+    username: fiordex
+    password: SymGn4vxfRbvBryO
     driver-class-name: com.mysql.cj.jdbc.Driver 
   jpa:
     show-sql: true

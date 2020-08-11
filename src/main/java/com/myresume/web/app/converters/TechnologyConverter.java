@@ -58,15 +58,20 @@ public class TechnologyConverter extends Converter<TechnologyModel, Technology> 
 
 		if (model.getId() != null && !model.getId().isEmpty()) {
 			entity = technologyRepository.getOne(model.getId());
+			
+			if (entity.getLogo() != null && model.getLogo() != null) {
+				photoRepository.delete(entity.getLogo());
+				entity.setLogo(photoConverter.modelToEntity(model.getLogo()));
+			}
+			
 		} else {
 			entity = new Technology();
+			entity.setLogo(photoConverter.modelToEntity(model.getLogo()));
 		}
 
 		try {
 
-			if (model.getLogo() != null) {
-				entity.setLogo(photoRepository.getOne(model.getLogo().getId()));
-			}
+			BeanUtils.copyProperties(model, entity);
 
 			if (model.getRegistered() != null) {
 				entity.setRegistered(model.getRegistered());
@@ -80,7 +85,6 @@ public class TechnologyConverter extends Converter<TechnologyModel, Technology> 
 				entity.setRemoved(model.getRemoved());
 			}
 
-			BeanUtils.copyProperties(model, entity);
 		} catch (Exception e) {
 			log.error("Error al convertir el modelo de la Tecnologia en entity", e);
 		}

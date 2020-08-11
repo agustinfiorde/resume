@@ -30,6 +30,7 @@ public class PhotoConverter extends Converter<PhotoModel, Photo> {
 
 	public Photo modelToEntity(PhotoModel model) {
 		Photo entity;
+		
 		if (model.getId() != null && !model.getId().isEmpty()) {
 			entity = photoRepository.getOne(model.getId());
 		} else {

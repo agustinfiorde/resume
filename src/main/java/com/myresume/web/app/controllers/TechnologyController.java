@@ -42,13 +42,13 @@ public class TechnologyController extends OwnController {
 
 	@Autowired
 	private TechnologyService technologyService;
-	
+
 	@Autowired
 	private PhotoService photoService;
 
 	@Autowired
 	private TechnologyConverter technologyConverter;
-	
+
 	@Autowired
 	private PhotoConverter photoConverter;
 
@@ -93,9 +93,9 @@ public class TechnologyController extends OwnController {
 			if (result.hasErrors()) {
 				error(model, result);
 			} else {
-				//revisar como manejo la logica 
-//				modelE.setLogo(photoConverter.entityToModel(photoService.convertMultipartFileToPhoto(file)));
-				technologyService.save(modelE, file);
+
+				modelE.setLogo(photoService.convertMultipartFileToPhotoModel(file));
+				technologyService.save(modelE);
 				return "redirect:/technology/list";
 			}
 		} catch (WebException e) {
@@ -138,7 +138,7 @@ public class TechnologyController extends OwnController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/form")
 	public ModelAndView form(@RequestParam(required = false) String id, @RequestParam(required = false) String action) {
-		
+
 		ModelAndView model = new ModelAndView(formView);
 
 		TechnologyModel modelE = new TechnologyModel();
